@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Information</title>
+</head>
+<body>
+    <h1>Country Information Example</h1>
+    <p>Check the console for the list of countries with their names, regions, sub-regions, and populations.</p>
+
+    <script>
+        
+        var xhr = new XMLHttpRequest();
+
+        
+        xhr.open('GET', 'https://restcountries.com/v3.1/all', true);
+
+        
+        xhr.send();
+
+        
+        xhr.onload = function() {
+            if (xhr.status != 200) { 
+                console.error(`Error ${xhr.status}: ${xhr.statusText}`); 
+            } else { 
+                
+                var data = JSON.parse(xhr.responseText);
+                
+                data.forEach(country => {
+                    console.log(`Name: ${country.name.common}`);
+                    console.log(`Region: ${country.region}`);
+                    console.log(`Sub-region: ${country.subregion}`);
+                    console.log(`Population: ${country.population}`);
+                    console.log('---');  
+                });
+            }
+        };
+
+        xhr.onerror = function() {
+            console.error('Request failed');
+        };
+    </script>
+</body>
+</html>
