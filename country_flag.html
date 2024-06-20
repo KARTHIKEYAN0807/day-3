@@ -6,20 +6,37 @@
     <title>Country Flags</title>
 </head>
 <body>
-    <h1>Country Flags Example</h1>
-    <p>Check the console for the list of country flags.</p>
+    <h1>Check the console for the country flags</h1>
 
     <script>
         
-        fetch('https://restcountries.com/v3.1/all')
-            .then(response => response.json())
-            .then(data => {
+        var xhr = new XMLHttpRequest();
+
+        
+        xhr.open('GET', 'https://restcountries.com/v3.1/all', true);
+
+        
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
                 
-                data.forEach(country => {
-                    console.log(country.flags.png);
+                var countries = JSON.parse(xhr.responseText);
+
+                
+                countries.forEach(country => {
+                    console.log(country.flags.png); 
                 });
-            })
-            .catch(error => console.error('Error fetching country data:', error));
+            } else {
+                console.error('Error fetching the countries data');
+            }
+        };
+
+        
+        xhr.onerror = function () {
+            console.error('Network error');
+        };
+
+        
+        xhr.send();
     </script>
 </body>
 </html>
